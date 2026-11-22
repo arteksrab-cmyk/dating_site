@@ -1,0 +1,21 @@
+modules = ["nodejs-24"]
+run = "PORT=3000 BASE_PATH=/ pnpm --filter @workspace/dating-landing run dev"
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Run Replit App"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 20000

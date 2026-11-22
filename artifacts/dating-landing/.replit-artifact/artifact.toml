@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Лендинг для знакомств"
+description = "Одностраничный квиз-прелендинг для дейтинг-оффера: короткий интерактив, отметка 18+, прозрачное раскрытие партнёрской ссылки и простая замена ссылки перед размещением на своём сервере."
+version = "1.0.0"
+id = "artifacts/dating-landing"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22908
+
+[services.development]
+run = "pnpm --filter @workspace/dating-landing run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dating-landing", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dating-landing/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22908"
+BASE_PATH = "/"
